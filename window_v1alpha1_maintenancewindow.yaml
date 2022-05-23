@@ -1,0 +1,9 @@
+apiVersion: window.open-cluster-management.io/v1alpha1
+kind: MaintenanceWindow
+metadata:
+  name: test
+spec:
+  startDate: "2022-04-12"
+  startTime: "2:00PM"
+  duration: 60
+  timezone: CET
