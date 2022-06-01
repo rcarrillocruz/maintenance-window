@@ -1,5 +1,5 @@
 # Build the manager binary
-FROM golang:1.17 as builder
+FROM registry.ci.openshift.org/stolostron/builder:go1.17-linux AS builder
 
 WORKDIR /workspace
 # Copy the Go Modules manifests
