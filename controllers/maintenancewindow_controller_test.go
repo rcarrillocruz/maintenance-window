@@ -39,7 +39,7 @@ var _ = Describe("MaintenanceWindow controller", func() {
 		It("Should transition Status.State from SCHEDULED to OPENED to finally CLOSED", func() {
 			By("By creating a new MaintenanceWindow")
 			ctx := context.Background()
-			aMinuteFromNow := time.Now().UTC().Add(2 * time.Minute)
+			twoMinutesFromNow := time.Now().UTC().Add(2 * time.Minute)
 			maintenanceWindow := &windowv1alpha1.MaintenanceWindow{
 				TypeMeta: metav1.TypeMeta{
 					APIVersion: "window.open-cluster-management.io/v1alpha1",
@@ -49,8 +49,8 @@ var _ = Describe("MaintenanceWindow controller", func() {
 					Name: MaintenanceWindowName,
 				},
 				Spec: windowv1alpha1.MaintenanceWindowSpec{
-					Date:     aMinuteFromNow.Format("2006-01-02"),
-					Time:     aMinuteFromNow.Format(time.Kitchen),
+					Date:     twoMinutesFromNow.Format("2006-01-02"),
+					Time:     twoMinutesFromNow.Format(time.Kitchen),
 					TimeZone: "UTC",
 					Duration: func(i int32) *int32 { return &i }(60),
 				},
@@ -68,7 +68,7 @@ var _ = Describe("MaintenanceWindow controller", func() {
 			Expect(createdMaintenanceWindow.Status.State).Should(Equal("SCHEDULED"))
 
 			By("By MaintenanceWindow is in SCHEDULED state")
-			time.Sleep(time.Until(aMinuteFromNow))
+			time.Sleep(time.Until(twoMinutesFromNow))
 
 			Eventually(func() bool {
 				err := k8sClient.Get(ctx, maintenanceWindowLookupKey, createdMaintenanceWindow)
